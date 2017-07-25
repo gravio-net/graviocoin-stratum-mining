@@ -143,13 +143,16 @@ class CTxOut(object):
     def __init__(self):
         self.nValue = 0
         self.scriptPubKey = ""
+        self.scriptDesc = ""
     def deserialize(self, f):
         self.nValue = struct.unpack("<q", f.read(8))[0]
         self.scriptPubKey = deser_string(f)
+        self.scriptDesc = deser_string(f)
     def serialize(self):
         r = ""
         r += struct.pack("<q", self.nValue)
         r += ser_string(self.scriptPubKey)
+        r += ser_string(self.scriptDesc)
         return r
     def __repr__(self):
         return "CTxOut(nValue=%i.%08i scriptPubKey=%s)" % (self.nValue // 100000000, self.nValue % 100000000, binascii.hexlify(self.scriptPubKey))
